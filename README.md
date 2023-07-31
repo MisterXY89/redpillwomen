@@ -15,4 +15,4 @@ We first tried multiple approaches to obtain the most recent data from the subre
 As our approach to collect the data ourselfs and use the most recent data did not work, we decided to use the data from [pushshift](https://academictorrents.com/details/c398a571976c78d346c325bd75c47b82edf6124e).
 Here we used the most recent data dump 2005-06 to 2022-12:
 
-Using `https://github.com/Watchful1/PushshiftDumps/blob/master/scripts/filter_file.py` we can filter the data to our needs. 
+Using `src/filter_reddit_dump.py`, (taken from the [Pushshift GitHub](https://github.com/Watchful1/PushshiftDumps/blob/master/scripts/filter_file.py)) we can filter the data to our needs. 
