@@ -1,5 +1,9 @@
 # r/redpillwomen
 
+## Overview
+- [Concept](https://docs.google.com/document/d/1rZtfiXTJh3QH4LyoYMtVKNVjwW7fsVMTI70lqLdHBT4/edit?usp=sharing)
+- [Google Drive folder](https://drive.google.com/drive/folders/18A3VU6Mtl2IXaB1RfSJhaJISUAlMB0Y8?usp=sharing)
+
 ## Data collection
 
 We first tried multiple approaches to obtain the most recent data from the subreddit. However, we were not able to get the desired amount of posts (limit of 1000 posts for every (non-paid) approach.
@@ -10,9 +14,3 @@ We first tried multiple approaches to obtain the most recent data from the subre
 
 As our approach to collect the data ourselfs and use the most recent data did not work, we decided to use the data from [pushshift](https://academictorrents.com/details/c398a571976c78d346c325bd75c47b82edf6124e).
 Here we used the most recent data dump which is from Feb, 28 2023.
-
-```
-
-## Overview
-- [Concept](https://docs.google.com/document/d/1rZtfiXTJh3QH4LyoYMtVKNVjwW7fsVMTI70lqLdHBT4/edit?usp=sharing)
-- [Google Drive folder](https://drive.google.com/drive/folders/18A3VU6Mtl2IXaB1RfSJhaJISUAlMB0Y8?usp=sharing)
