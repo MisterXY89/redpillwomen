@@ -16,3 +16,12 @@ As our approach to collect the data ourselfs and use the most recent data did no
 Here we used the most recent data dump 2005-06 to 2022-12:
 
 Using `src/filter_reddit_dump.py`, (taken from the [Pushshift GitHub](https://github.com/Watchful1/PushshiftDumps/blob/master/scripts/filter_file.py)) we can filter the data to our needs. 
+
+```bash
+
+$ python filter_reddit_dump.py --input_file=<PATH> --output_file=<OPTIONAL-NAME> --start_date=<2021-01-01> --end_date=<2021-12-31> --max_lines <OPTIONAL-INT>
+
+```
+
+```
+```
