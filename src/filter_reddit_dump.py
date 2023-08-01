@@ -64,10 +64,24 @@ def read_lines_zst(file_name):
 
 def write_line_csv(writer, obj, is_submission):
 	output_list = []
-	output_list.append(str(obj['score']))
+	# 'author_flair_text', 
+	# 'hide_score', 'id',
+	# 'link_flair_text', 'locked',
+	# 'num_comments', 'num_crossposts', 'over_18', 
+	# 'score', 'title', ])
+	output_list.append(str(obj['score']))	
 	output_list.append(datetime.fromtimestamp(obj['created_utc']).strftime("%Y-%m-%d"))
 	if is_submission:
 		output_list.append(obj['title'])
+		output_list.append(str(obj['author_flair_text']))
+		output_list.append(str(obj['link_flair_text']))		
+		output_list.append(str(obj['locked']))
+		output_list.append(str(obj['num_comments']))
+		output_list.append(str(obj['over_18']))
+		output_list.append(str(obj['hide_score']))
+		output_list.append(str(obj['num_crossposts']))		
+	else:
+		output_list.append(obj['is_submitter'])
 	output_list.append(f"u/{obj['author']}")
 	output_list.append(f"https://www.reddit.com{obj['permalink']}")
 	if is_submission:
