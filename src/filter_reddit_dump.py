@@ -6,8 +6,11 @@ and adopted to our needs
 import argparse
 import zstandard
 
+import numpy as np
+
 import logging.handlers
 
+import re
 import os
 import json
 from datetime import datetime
@@ -28,6 +31,25 @@ log_file_handler = logging.handlers.RotatingFileHandler(os.path.join("logs", "bo
 log_file_handler.setFormatter(log_formatter)
 log.addHandler(log_file_handler)
 
+
+def get_json(line):
+	try:
+		obj = json.loads(line)
+	except Exception as jsonE:
+		# Clean the JSON data before parsing
+		try:
+			line_cleaned = line.replace("\\", "\\\\")
+			line_cleaned = remove_control_characters(line_cleaned)
+			obj = json.loads(line)
+		
+		except Exception as e:
+			obj = None
+
+	return obj
+
+# Function to remove control characters from the selftext field
+def remove_control_characters(text):
+    return re.sub(r'[\x00-\x1F\x7F-\x9F]', '', text)
 
 def read_and_decode(reader, chunk_size, max_window_size, previous_chunk=None, bytes_read=0):
 	chunk = reader.read(chunk_size)
@@ -70,16 +92,15 @@ def write_line_csv(writer, obj, is_submission):
 	# 'num_comments', 'num_crossposts', 'over_18', 
 	# 'score', 'title', ])
 	output_list.append(str(obj['score']))	
-	output_list.append(datetime.fromtimestamp(obj['created_utc']).strftime("%Y-%m-%d"))
+	output_list.append(datetime.fromtimestamp(int(obj['created_utc'])).strftime("%Y-%m-%d"))
 	if is_submission:
 		output_list.append(obj['title'])
 		output_list.append(str(obj['author_flair_text']))
-		output_list.append(str(obj['link_flair_text']))		
-		output_list.append(str(obj['locked']))
-		output_list.append(str(obj['num_comments']))
+		output_list.append(str(obj['link_flair_text']))
+		output_list.append(
+			str(obj['locked']) if 'locked' in obj else "False"
+		)
 		output_list.append(str(obj['over_18']))
-		output_list.append(str(obj['hide_score']))
-		output_list.append(str(obj['num_crossposts']))		
 	else:
 		output_list.append(obj['is_submitter'])
 	output_list.append(f"u/{obj['author']}")
@@ -112,16 +133,19 @@ def parse_data(input_file, output_file, is_submission, from_date, to_date, max_l
 	
 	for line, file_bytes_processed in read_lines_zst(input_file):
 		if total_lines >= max_lines:
+			print("MAX LINES REACHED")
 			break
 		total_lines += 1
 		if total_lines % 1000 == 0:
-			log.info(f"{created.strftime('%Y-%m-%d %H:%M:%S')} : {total_lines:,} : {matched_lines:,} : {bad_lines:,} : {file_bytes_processed:,}:{(file_bytes_processed / file_size) * 100:.0f}%")
+			log.info(f"{created.strftime('%Y-%m-%d %H:%M:%S')} : {total_lines:,} : {bad_lines:,} : {(file_bytes_processed / file_size) * 100:.0f}%")
 		try:
-			obj = json.loads(line)
-			# KEYS:
+
+			obj = get_json(line)
+
 			# dict_keys(['archived', 'author', 'author_flair_css_class', 'author_flair_text', 'brand_safe', 'contest_mode', 'created_utc', 'distinguished', 'domain', 'edited', 'gilded', 'hidden', 'hide_score', 'id', 'is_crosspostable', 'is_reddit_media_domain', 'is_self', 'is_video', 'link_flair_css_class', 'link_flair_text', 'locked', 'media', 'media_embed', 'no_follow', 'num_comments', 'num_crossposts', 'over_18', 'parent_whitelist_status', 'permalink', 'pinned', 'retrieved_on', 'score', 'secure_media', 'secure_media_embed', 'selftext', 'send_replies', 'spoiler', 'stickied', 'subreddit', 'subreddit_id', 'subreddit_type', 'suggested_sort', 'thumbnail', 'thumbnail_height', 'thumbnail_width', 'title', 'url', 'whitelist_status'])
+						
 			created = datetime.utcfromtimestamp(int(obj['created_utc']))
-			
+
 			if created < from_date:
 				continue
 			if created > to_date:
@@ -130,9 +154,10 @@ def parse_data(input_file, output_file, is_submission, from_date, to_date, max_l
 			write_line_csv(writer, obj, is_submission)
 		
 		except Exception as e:
-			log.error(f"Error processing line: {line}")
+			log.error(f"Error processing line: {e}")
 			bad_lines += 1
-			continue
+			break
+			# continue
 
 if __name__ == "__main__":
 
@@ -149,7 +174,7 @@ if __name__ == "__main__":
 	parser.add_argument('--to_date', type=str, help='The date to stop filtering at, in YYYY-MM-DD format', default="2024-01-01")
 
 	# max lines
-	parser.add_argument('--max_lines', type=int, help='The maximum number of lines to output', default=10000000)
+	parser.add_argument('--max_lines', type=int, help='The maximum number of lines to output', default=np.inf)
 
 	args = parser.parse_args()
 
@@ -160,10 +185,11 @@ if __name__ == "__main__":
 		output_file = f"../data/output/{input_file.split('/')[-1].split('.')[0]}.csv"
 
 	from_date = datetime.strptime(args.from_date, "%Y-%m-%d")
+	print(from_date)
 	to_date = datetime.strptime(args.to_date, "%Y-%m-%d")
 
 	max_lines = args.max_lines
 
 	is_submission = "submission" in input_file
 	
-	parse_data(input_file, output_file, is_submission, from_date, to_date, max_lines)
+	parse_data(input_file, output_file, is_submission, from_date, to_date, max_lines)	
