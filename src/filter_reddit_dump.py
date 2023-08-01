@@ -86,11 +86,6 @@ def read_lines_zst(file_name):
 
 def write_line_csv(writer, obj, is_submission):
 	output_list = []
-	# 'author_flair_text', 
-	# 'hide_score', 'id',
-	# 'link_flair_text', 'locked',
-	# 'num_comments', 'num_crossposts', 'over_18', 
-	# 'score', 'title', ])
 	output_list.append(str(obj['score']))	
 	output_list.append(datetime.fromtimestamp(int(obj['created_utc'])).strftime("%Y-%m-%d"))
 	if is_submission:
