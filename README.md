@@ -20,8 +20,4 @@ Using `src/filter_reddit_dump.py`, (taken from the [Pushshift GitHub](https://gi
 ```bash
 
 $ python filter_reddit_dump.py --input_file=<PATH> --output_file=<OPTIONAL-NAME> --start_date=<2021-01-01> --end_date=<2021-12-31> --max_lines <OPTIONAL-INT>
-
-```
-
-```
 ```
