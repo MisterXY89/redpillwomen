@@ -21,3 +21,8 @@ Using `src/filter_reddit_dump.py`, (taken from the [Pushshift GitHub](https://gi
 
 $ python filter_reddit_dump.py --input_file=<PATH> --output_file=<OPTIONAL-NAME> --start_date=<2021-01-01> --end_date=<2021-12-31> --max_lines <OPTIONAL-INT>
 ```
+
+## Download the data
+
+You can either follow our steps to reproduce and download the data or request the password for the preprocessed data from us.
+Then you can download the data from [here](https://tuwienacat-my.sharepoint.com/:f:/g/personal/e12144056_student_tuwien_ac_at/Eq1nyVjr8llBkSquy8k_TzkBwJt0nMWHUjw-ZOQLmaPD9A?e=9UNi82).
