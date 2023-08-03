@@ -1,8 +1,5 @@
-# r/redpillwomen
-
-## Overview
-- [Concept](https://docs.google.com/document/d/1rZtfiXTJh3QH4LyoYMtVKNVjwW7fsVMTI70lqLdHBT4/edit?usp=sharing)
-- [Google Drive folder](https://drive.google.com/drive/folders/18A3VU6Mtl2IXaB1RfSJhaJISUAlMB0Y8?usp=sharing)
+# r/redpillwomen: What is going on here?
+SICSS 2023 Munich Project, exploring the r/redpillwomen subreddit.
 
 ## Data collection
 
@@ -26,3 +23,6 @@ $ python filter_reddit_dump.py --input_file=<PATH> --output_file=<OPTIONAL-NAME>
 
 You can either follow our steps to reproduce and download the data or request the password for the preprocessed data from us.
 Then you can download the data from [here](https://tuwienacat-my.sharepoint.com/:f:/g/personal/e12144056_student_tuwien_ac_at/Eq1nyVjr8llBkSquy8k_TzkBwJt0nMWHUjw-ZOQLmaPD9A?e=9UNi82).
+
+## Contributors
+Tilman Kerl, Luisa Kutlar, Nadja Ozornina, Phelia Weiss
